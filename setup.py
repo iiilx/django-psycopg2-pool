@@ -9,6 +9,7 @@ setup(
     author_email='ben86lee@gmail.com',
     packages=find_packages(),
     include_package_data=True,
+    install_requires = ['psycopg2'],
     url='https://github.com/iiilx/django-psycopg2-pool',
     license='BSD license, see LICENSE.txt',
     description='A db backend for Django using the gevent psycopg2-pool',
