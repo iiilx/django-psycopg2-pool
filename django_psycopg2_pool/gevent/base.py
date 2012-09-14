@@ -190,11 +190,8 @@ class DatabaseWrapper(BaseDatabaseWrapper):
 
     def _cursor(self):
 
-        print 'connected. about to get conn from pool w/ size=%s, gets=%s, puts=%s, diff=%s' % (self.pool.size, self.pool.gets, self.pool.puts, self.pool.gets - self.pool.puts)
-        # XXX THIS IS WHERE THE PROBLEM IS...THIS IS BLOCKING FOR SOME REASON...NOTHING IN THE POOL?
         if self.connection is None:
             self.connection = self.pool.get()
-            print 'connected. got conn %s from pool' % self.connection
             self.connection.set_client_encoding('UTF8')
             tz = 'UTC' if settings.USE_TZ else settings_dict.get('TIME_ZONE')
             if tz:
