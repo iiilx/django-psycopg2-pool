@@ -127,7 +127,8 @@ class DatabaseWrapper(BaseDatabaseWrapper):
         self._pg_version = None
         self.conn_params = self._conn_params()
         if self.alias not in POOLS:
-            self.pool = POOLS[self.alias] = PostgresConnectionPool(maxsize=1000, **self.conn_params)
+            pool_size = 1000 if 'POOL_SIZE' not in self.settings_dict.keys() else int(self.settings_dict['POOL_SIZE'])
+            self.pool = POOLS[self.alias] = PostgresConnectionPool(maxsize=pool_size, **self.conn_params)
         else:
             self.pool = POOLS[self.alias]
 

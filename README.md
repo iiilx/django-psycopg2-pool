@@ -20,13 +20,28 @@ OR
 
 Assuming you have Django installed and this app installed,
 
-1. add 'django-psycopg2-pool.gevent' as your db backend
+1. set `ENGINE` to `'django-psycopg2-pool.gevent'` in your db backend settings
 2. this may be required if you have south: in settings.py, have a line like:
 
+<!-- language: python -->
     SOUTH_DATABASE_ADAPTERS = {
         'default': "south.db.postgresql_psycopg2",
     }
 
+3. Set `POOL_SIZE` to 100 or so in your db settings and tweak this number so that each worker process has adequate postgres connections available to it.  If you have four worker processes and `max_connections` for postgres is 101, then 25 is a reasonable pool size that will still let you run manage commands like south.  Each connection to postgres will fork a postgres worker, visible running `pstree -pa` on Linux systems.  Raising `max_connections` in postgres can consume a lot of memory if `work_mem` is set high.  Work_mem is necessary to do in-memory sorts before spilling to the disk, so don't set this too low just to have tons of postgres threads running.
+
+<!-- language: python -->
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django_psycopg2_pool.gevent', 
+            'NAME': 'myproject_db',                  
+            'USER': 'myproject',                    
+            'PASSWORD': 'mypassword',                
+            'HOST': '/var/run/postgresql',           # When running postgres on unix socket
+            'PORT': '',                              # Empty if using unix socket
+            'POOL_SIZE' : 20,                        # slightly less than postgres max_connections / worker processes
+        }
+    }
 
 ## NOTES
 ---------
