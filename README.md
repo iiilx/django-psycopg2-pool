@@ -27,6 +27,8 @@ Assuming you have Django installed and this app installed,
         'default': "south.db.postgresql_psycopg2",
     }
 
+3. add ''POOL_SIZE' : 100,' to your db backend options and tweak this number so that each worker process has adequate postgres connections available to it.  Each connection to postgres will fork a postgres worker, visible running 'pstree -pa' on Linux systems.  Raising max_connections in postgres can consume a lot of memory if work_mem is set high.  Work_mem is necessary to do in-memory sorts before spilling to the disk, so don't set this too low just to have tons of postgres threads running.
+
 
 ## NOTES
 ---------
