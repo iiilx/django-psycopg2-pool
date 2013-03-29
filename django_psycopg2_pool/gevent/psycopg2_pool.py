@@ -41,7 +41,7 @@ class DatabaseConnectionPool(object):
         self.gets += 1
         pool_size = pool.qsize()
         if self.size >= self.maxsize or pool_size:
-            print 'using connection already in pool with q size %s' % pool_size
+            #print 'using connection already in pool with q size %s' % pool_size
             return pool.get()
         else:
             self.size += 1
@@ -50,12 +50,12 @@ class DatabaseConnectionPool(object):
             except:
                 self.size -= 1
                 raise
-            print 'using brand new connection '
+            #print 'using brand new connection '
             return new_item
 
     def put(self, item):
         pool_size = self.pool.qsize()
-        print 'put connection in pool with q size %s, self.size=%s' % (pool_size, self.size)
+        #print 'put connection in pool with q size %s, self.size=%s' % (pool_size, self.size)
         self.pool.put(item)
         self.puts += 1
 
