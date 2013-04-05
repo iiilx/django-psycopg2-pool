@@ -20,7 +20,7 @@ OR
 
 Assuming you have Django installed and this app installed,
 
-1. set `ENGINE` to `'django-psycopg2-pool.gevent'` in your db backend settings
+1. set `ENGINE` to `'django_psycopg2_pool.gevent'` in your db backend settings
 2. this may be required if you have south: in settings.py, have a line like:
 
 <!-- language: python -->
