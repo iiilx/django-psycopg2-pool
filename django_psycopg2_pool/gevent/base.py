@@ -194,7 +194,7 @@ class DatabaseWrapper(BaseDatabaseWrapper):
         if self.connection is None:
             self.connection = self.pool.get()
             self.connection.set_client_encoding('UTF8')
-            tz = 'UTC' if settings.USE_TZ else settings_dict.get('TIME_ZONE')
+            tz = 'UTC' if settings.USE_TZ else self.settings_dict.get('TIME_ZONE')
             if tz:
                 try:
                     get_parameter_status = self.connection.get_parameter_status
